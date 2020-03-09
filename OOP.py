@@ -106,12 +106,23 @@ class BMI(QMainWindow):
         BMI.close(self)
     def submitdata(self, fn, ln, age, height, weight,sex,bmi1):
         submitting = QMessageBox.question(self, "Submitting Data", "Are you sure want to submit this information?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-        
         if submitting == QMessageBox.Yes and fn != "" and ln != "" and age != "" and height != "" and weight != "" and sex != "" and bmi1 !="":
-            f = open("Information.txt", 'w')
-            f.write(f"First Name: {fn}\nLast Name: {ln}\nAge: {age}\nHeight: {height}\nWeight: {weight}\nSex: {sex}\nBMI:{bmi1}")
-            f.close
+            dictionarydb = SqliteDict("Pogi.db", autocommit = True)
+            accounts_list = dictionarydb.get('accounts',[])
+            d = (f"First Name: {fn}\nLast Name: {ln}\nAge: {age}\nHeight: {height}\nWeight: {weight}\nSex: {sex}\n BMI: {bmi1}")
+            accounts_list.append(d)
+            dictionarydb['accounts'] = accounts_list
+            print(accounts_list)
             QMessageBox.information(self, "Evaluation", "Data Inputted!", QMessageBox.Ok, QMessageBox.Ok)
+            ano_data = QMessageBox.question(self,"Adding another data","Do you want to add another data?",QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+            if ano_data == QMessageBox.Yes:
+                self.textbox10.setText("")
+                self.textbox20.setText("")
+                self.textbox30.setText("")
+                self.textbox40.setText("")
+                self.textbox2.setText("")
+                self.textbox1.setText("")
+                self.textbox3.setText("")
         
         elif submitting == QMessageBox.No:
             pass
