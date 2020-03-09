@@ -92,11 +92,9 @@ class BMI(QMainWindow):
         sex = self.textbox40.text
         height = float(self.textbox2.text())
         weight = int(self.textbox1.text())
-        self.bmi_comp(height,weight)
-        self.submitdata(fn, ln, age, height, weight,sex)
-    def bmi_comp(self,height,weight):
-         bmi1 = weight/height**2
-         self.textbox3.setText(f"{bmi1}")
+        bmi1 = weight/height**2
+        bmi =  self.textbox3.setText(f"{bmi1}")
+        self.submitdata(fn, ln, age, height, weight,sex,bmi1)
     def clear(self):
         self.textbox10.setText("")
         self.textbox20.setText("")
@@ -106,12 +104,12 @@ class BMI(QMainWindow):
         self.textbox1.setText("")
     def back(self):
         BMI.close(self)
-    def submitdata(self, fn, ln, age, height, weight,sex):
+    def submitdata(self, fn, ln, age, height, weight,sex,bmi1):
         submitting = QMessageBox.question(self, "Submitting Data", "Are you sure want to submit this information?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
         
-        if submitting == QMessageBox.Yes and fn != "" and ln != "" and age != "" and height != "" and weight != "" and sex != "":
+        if submitting == QMessageBox.Yes and fn != "" and ln != "" and age != "" and height != "" and weight != "" and sex != "" and bmi1 !="":
             f = open("Information.txt", 'w')
-            f.write(f"First Name: {fn}\nLast Name: {ln}\nAge: {age}\nHeight: {height}\nWeight: {weight}\nSex: {sex}")
+            f.write(f"First Name: {fn}\nLast Name: {ln}\nAge: {age}\nHeight: {height}\nWeight: {weight}\nSex: {sex}\nBMI:{bmi1}")
             f.close
             QMessageBox.information(self, "Evaluation", "Data Inputted!", QMessageBox.Ok, QMessageBox.Ok)
         
