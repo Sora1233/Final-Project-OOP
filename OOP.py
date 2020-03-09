@@ -89,7 +89,7 @@ class BMI(QMainWindow):
         fn = self.textbox10.text()
         ln = self.textbox20.text()
         age = int(self.textbox30.text())
-        sex = self.textbox40.text
+        sex = self.textbox40.text()
         height = float(self.textbox2.text())
         weight = int(self.textbox1.text())
         self.bmi_comp(height,weight)
@@ -104,16 +104,34 @@ class BMI(QMainWindow):
         self.textbox40.setText("")
         self.textbox2.setText("")
         self.textbox1.setText("")
+        self.textbox3.setText("")
     def back(self):
         BMI.close(self)
     def submitdata(self, fn, ln, age, height, weight,sex):
         submitting = QMessageBox.question(self, "Submitting Data", "Are you sure want to submit this information?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
         
         if submitting == QMessageBox.Yes and fn != "" and ln != "" and age != "" and height != "" and weight != "" and sex != "":
-            f = open("Information.txt", 'w')
-            f.write(f"First Name: {fn}\nLast Name: {ln}\nAge: {age}\nHeight: {height}\nWeight: {weight}\nSex: {sex}")
-            f.close
+            submitting = QMessageBox.question(self, "Submitting Data", "Are you sure want to submit this information?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+        if submitting == QMessageBox.Yes and fn != "" and ln != "" and age != "" and height != "" and weight != "" and sex != "":
+            dictionarydb = SqliteDict("Pogi.db", autocommit = True)
+            accounts_list = dictionarydb.get('accounts',[])
+            d = (f"First Name: {fn}\nLast Name: {ln}\nAge: {age}\nHeight: {height}\nWeight: {weight}\nSex: {sex}")
+            accounts_list.append(d)
+            dictionarydb['accounts'] = accounts_list
+            print(accounts_list)
             QMessageBox.information(self, "Evaluation", "Data Inputted!", QMessageBox.Ok, QMessageBox.Ok)
+            ano_data = QMessageBox.question(self,"Adding another data","Do you want to add another data?",QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+            if ano_data == QMessageBox.Yes:
+                  self.textbox10.setText("")
+                  self.textbox20.setText("")
+                  self.textbox30.setText("")
+                  self.textbox40.setText("")
+                  self.textbox2.setText("")
+                  self.textbox1.setText("")
+                  self.textbox3.setText("")
+            else:
+                BMI.close(self) 
+     
         
         elif submitting == QMessageBox.No:
             pass
