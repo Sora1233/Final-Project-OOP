@@ -67,6 +67,15 @@ class BMI(QMainWindow):
         self.textbox3.move(190,310)
         self.textbox3.resize(280,30)
         
+        self.textbox4 = QLineEdit(self)
+        self.textboxlbl4 = QLabel("<h3>Your Classification is:<h3>",self)
+        self.textboxlbl4.move(20,359)
+        self.textboxlbl4.resize(300,20)
+        self.textbox4.setText("")
+        self.textbox4.move(190,350)
+        self.textbox4.resize(200,30)
+        
+        
 
         self.button = QPushButton('Submit',self)
         self.button.setToolTip("Submit your Information")
@@ -94,6 +103,15 @@ class BMI(QMainWindow):
         weight = int(self.textbox1.text())
         bmi1 = weight/height**2
         bmi =  self.textbox3.setText(f"{bmi1}")
+        bmi2 = bmi1
+        if bmi2 < 18.5:
+            self.textbox4.setText("Underweight")
+        elif (18.6<=bmi2<=24.99):
+            self.textbox4.setText("Normal Weight")
+        elif(25<=bmi2<=29.99):
+            self.textbox4.setText("Overweight")
+        else:
+            self.textbox4.setText("Obesse")  
         self.submitdata(fn, ln, age, height, weight,sex,bmi1)
     def clear(self):
         self.textbox10.setText("")
@@ -109,7 +127,7 @@ class BMI(QMainWindow):
         if submitting == QMessageBox.Yes and fn != "" and ln != "" and age != "" and height != "" and weight != "" and sex != "" and bmi1 !="":
             dictionarydb = SqliteDict("Pogi.db", autocommit = True)
             accounts_list = dictionarydb.get('accounts',[])
-            d = (f"First Name: {fn}\nLast Name: {ln}\nAge: {age}\nHeight: {height}\nWeight: {weight}\nSex: {sex}\n BMI: {bmi1}")
+            d = (f"First Name: {fn} Last Name: {ln} Age: {age} Height: {height} Weight: {weight} Sex: {sex} BMI: {bmi1}")
             accounts_list.append(d)
             dictionarydb['accounts'] = accounts_list
             print(accounts_list)
@@ -123,6 +141,7 @@ class BMI(QMainWindow):
                 self.textbox2.setText("")
                 self.textbox1.setText("")
                 self.textbox3.setText("")
+                self.textbox4.setText("")
         
         elif submitting == QMessageBox.No:
             pass
