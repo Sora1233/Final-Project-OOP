@@ -1,7 +1,9 @@
 import sys
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QPushButton, QLineEdit, QLabel, QMessageBox
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtGui import QIcon,QImage,QPalette,QBrush
+from PyQt5.QtCore import pyqtSlot,QSize
+from PyQt5 import QtGui,QtWidgets,QtCore
+from sqlitedict import*
 
 class BMI(QMainWindow):
     def __init__(self):
@@ -9,22 +11,32 @@ class BMI(QMainWindow):
         self.setWindowTitle("BMI Calculator")
         self.setGeometry(500,500,500,500)
         self.title = "BMI Calculator"
+        self.setWindowIcon(QIcon('arm.ico'))
+        bg = QImage("wall.jpg")
+        bg1 = bg.scaled(QSize(500,500))
+        palette = QPalette()
+        palette.setBrush(QPalette.Window,QBrush(bg1))
+        self.setPalette(palette)
         self.textboxlbl = QLabel("<h3>Welcome to BMI Calculator<h3>",self)
+        self.textboxlbl.setStyleSheet("color: yellow")
         self.textboxlbl.move(140,20)
         self.textboxlbl.resize(300,20)
         self.textboxlbl1 = QLabel("Please input your data:",self)
+        self.textboxlbl1.setStyleSheet("color: yellow")
         self.textboxlbl1.move(175,35)
         self.textboxlbl1.resize(300,20)
         
         self.textbox10 = QLineEdit(self)
         self.textboxlbl10 = QLabel("<h3>First Name:<h3>", self)
         self.textboxlbl10.move(100,79)
+        self.textboxlbl0.setStyleSheet("color: yellow")
         self.textbox10.setText("")
         self.textbox10.move(180,70)
         self.textbox10.resize(280,30)
         
         self.textbox20 = QLineEdit(self)
         self.textboxlbl20 = QLabel("<h3>Last Name:<h3>", self)
+        self.textboxlb20.setStyleSheet("color: yellow")
         self.textboxlbl20.move(100,119)
         self.textbox20.setText("")
         self.textbox20.move(180,110)
@@ -32,6 +44,7 @@ class BMI(QMainWindow):
 
         self.textbox30 = QLineEdit(self)
         self.textboxlbl30 = QLabel("<h3>Age:<h3>", self)
+        self.textboxlbl30.setStyleSheet("color: yellow")
         self.textboxlbl30.move(100,159)
         self.textbox30.setText("")
         self.textbox30.move(180,150)
@@ -40,6 +53,7 @@ class BMI(QMainWindow):
         
         self.textbox40 = QLineEdit(self)
         self.textboxlbl40 = QLabel("<h3>Sex:<h3>", self)
+        self.textboxlbl40.setStyleSheet("color: yellow")
         self.textboxlbl40.move(100,199)
         self.textbox40.setText("")
         self.textbox40.move(180,190)
@@ -48,6 +62,7 @@ class BMI(QMainWindow):
         self.textbox2 = QLineEdit(self)
         self.textboxlbl2 = QLabel("<h3>Height:<h3>", self)
         self.textboxlbl2.move(100,239)
+        self.textboxlbl2.setStyleSheet("color: yellow")
         self.textbox2.setText("")
         self.textbox2.move(180,230)
         self.textbox2.resize(280,30)
@@ -55,12 +70,14 @@ class BMI(QMainWindow):
         self.textbox1 = QLineEdit(self)
         self.textboxlbl1 = QLabel("<h3>Weight:<h3>", self)
         self.textboxlbl1.move(100,279)
+        self.textboxlbl1.setStyleSheet("color: yellow")
         self.textbox1.setText("")
         self.textbox1.move(180,270)
         self.textbox1.resize(280,30)
 
         self.textbox3 = QLineEdit(self)
         self.textboxlbl3 = QLabel("<h3>Your Body Mass Index is:<h3>",self)
+        self.textboxlbl3.setStyleSheet("color: yellow")
         self.textboxlbl3.move(20,319)
         self.textboxlbl3.resize(300,20)
         self.textbox3.setText("")
@@ -69,6 +86,7 @@ class BMI(QMainWindow):
         
         self.textbox4 = QLineEdit(self)
         self.textboxlbl4 = QLabel("<h3>Your Classification is:<h3>",self)
+        self.textboxlbl4.setStyleSheet("color: yellow")
         self.textboxlbl4.move(20,359)
         self.textboxlbl4.resize(300,20)
         self.textbox4.setText("")
@@ -79,13 +97,16 @@ class BMI(QMainWindow):
 
         self.button = QPushButton('Submit',self)
         self.button.setToolTip("Submit your Information")
+        self.button.setStyleSheet("background-color : skyblue")
         self.button.move(80,450)
         self.button.clicked.connect(self.data)
         self.button1 = QPushButton('Clear', self)
         self.button1.setToolTip("Clear all your information")
+        self.button1.setStyleSheet("background-color : skyblue")
         self.button1.move(200,450)
         self.button1.clicked.connect(self.clear)
         self.button2 = QPushButton('Back', self)
+        self.button2.setStyleSheet("background-color : skyblue")
         self.button2.setToolTip("Back to the main window")
         self.button2.move(320,450)
         self.button2.clicked.connect(self.back)
@@ -103,8 +124,7 @@ class BMI(QMainWindow):
         weight = int(self.textbox1.text())
         bmi1 = weight/height**2
         bmi =  self.textbox3.setText(f"{bmi1}")
-        bmi2 = bmi1
-        if bmi2 < 18.5:
+        if bmi1 < 18.5:
             self.textbox4.setText("Underweight")
         elif (18.6<=bmi2<=24.99):
             self.textbox4.setText("Normal Weight")
@@ -124,13 +144,14 @@ class BMI(QMainWindow):
         BMI.close(self)
     def submitdata(self, fn, ln, age, height, weight,sex,bmi1):
         submitting = QMessageBox.question(self, "Submitting Data", "Are you sure want to submit this information?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-        if submitting == QMessageBox.Yes and fn != "" and ln != "" and age != "" and height != "" and weight != "" and sex != "" and bmi1 !="":
+        if submitting == QMessageBox.Yes and fn != "" and ln != "" and age != "" and height != "" and weight != "" and sex != "":
             dictionarydb = SqliteDict("Pogi.db", autocommit = True)
             accounts_list = dictionarydb.get('accounts',[])
             d = (f"First Name: {fn} Last Name: {ln} Age: {age} Height: {height} Weight: {weight} Sex: {sex} BMI: {bmi1}")
             accounts_list.append(d)
             dictionarydb['accounts'] = accounts_list
-            print(accounts_list)
+            for i in range(len(dictionarydb['accounts'])):
+                print(dictionarydb['accounts'][i])
             QMessageBox.information(self, "Evaluation", "Data Inputted!", QMessageBox.Ok, QMessageBox.Ok)
             ano_data = QMessageBox.question(self,"Adding another data","Do you want to add another data?",QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
             if ano_data == QMessageBox.Yes:
@@ -149,3 +170,4 @@ class BMI(QMainWindow):
             pass
         elif submitting == QMessageBox.No and fn == "" or ln == "" or age == "" or height == "" or weight == "" and sex == "":
             QMessageBox.warning(self, "Error","Please complete the blanked field", QMessageBox.Ok, QMessageBox.Ok)
+       
