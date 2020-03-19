@@ -323,7 +323,6 @@ class Male(QMainWindow):
                   self.textbox10.setText("")
                   self.textbox20.setText("")
                   self.textbox30.setText("")
-                  self.textbox40.setText("")
                   self.textbox2.setText("")
                   self.textbox1.setText("")
                   self.textbox3.setText("")
