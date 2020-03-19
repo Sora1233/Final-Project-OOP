@@ -671,11 +671,11 @@ class BMI_data(QMainWindow):
         self.button.setToolTip("Show BMI Database")
         self.button.clicked.connect(self.show1)
 
-        self.button1 = QPushButton("Clear", self)
+        self.button1 = QPushButton("Delete", self)
         self.button1.setStyleSheet("background-color : skyblue; font: Bold")
         self.button1.move(130, 430)
         self.button1.resize(500,50)
-        self.button1.setToolTip("Clear BMI Database")
+        self.button1.setToolTip("Delete BMI Database")
         self.button1.clicked.connect(self.del1)
 
         self.button2 = QPushButton("Back", self)
@@ -692,7 +692,7 @@ class BMI_data(QMainWindow):
         dictionarydb = SqliteDict("BMI.db", autocommit=True)
         accounts_list = dictionarydb.get('accounts')
         if accounts_list == []:
-            QMessageBox.information(self, "Clear", "All data Cleared!", QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.information(self, "Delete", "All data Deleted!", QMessageBox.Ok, QMessageBox.Ok)
         else:
             accounts_list.pop()
             dictionarydb['accounts'] = accounts_list
@@ -738,11 +738,11 @@ class MaleBMR_data(QMainWindow):
         self.button.setToolTip("Show Male BMR Database")
         self.button.clicked.connect(self.show1)
 
-        self.button1 = QPushButton("Clear", self)
+        self.button1 = QPushButton("Delete", self)
         self.button1.setStyleSheet("background-color : skyblue; font: Bold")
         self.button1.move(130, 430)
         self.button1.resize(500,50)
-        self.button1.setToolTip("Clear Male Database")
+        self.button1.setToolTip("Delete Male Database")
         self.button1.clicked.connect(self.del1)
 
         self.button2 = QPushButton("Back", self)
@@ -759,7 +759,7 @@ class MaleBMR_data(QMainWindow):
         dictionarydb = SqliteDict("BMRMale.db", autocommit=True)
         accounts_list = dictionarydb.get('accounts')
         if accounts_list == []:
-            QMessageBox.information(self, "Clear", "All data Cleared!", QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.information(self, "Delete", "All data Deleted!", QMessageBox.Ok, QMessageBox.Ok)
         else:
             accounts_list.pop()
             dictionarydb['accounts'] = accounts_list
@@ -805,11 +805,11 @@ class FemaleBMR_data(QMainWindow):
         self.button.setToolTip("Show Female BMR Database")
         self.button.clicked.connect(self.show1)
 
-        self.button1 = QPushButton("Clear", self)
+        self.button1 = QPushButton("Delete", self)
         self.button1.setStyleSheet("background-color : skyblue; font: Bold")
         self.button1.move(130, 430)
         self.button1.resize(500,50)
-        self.button1.setToolTip("Clear Female BMR Database")
+        self.button1.setToolTip("Delete Female BMR Database")
         self.button1.clicked.connect(self.del1)
 
         self.button2 = QPushButton("Back", self)
@@ -826,7 +826,7 @@ class FemaleBMR_data(QMainWindow):
         dictionarydb = SqliteDict("BMRFemale.db", autocommit=True)
         accounts_list = dictionarydb.get('accounts')
         if accounts_list == []:
-            QMessageBox.information(self, "Clear", "All data Cleared!", QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.information(self, "Delete", "All data Deleted!", QMessageBox.Ok, QMessageBox.Ok)
         else:
             accounts_list.pop()
             dictionarydb['accounts'] = accounts_list
@@ -869,20 +869,20 @@ class BMIandBmrCalc(QMainWindow):
         self.button1 = QPushButton('Basal Metabolic Rate(BMR)',self)
         self.button1.setStyleSheet("background-color : skyblue; font: Bold")
         self.button1.setToolTip("Computes your BMR(Basal Metabolic Rate)")
-        self.button1.move(100,300)
+        self.button1.move(100,270)
         self.button1.resize(500,50)
         self.button1.clicked.connect(self.window3)
 
-        self.button2 = QPushButton('Display all information',self)
+        self.button2 = QPushButton('Display or delete all information',self)
         self.button2.setStyleSheet("background-color : skyblue; font: Bold")
         self.button2.setToolTip("Display the inputted information")
-        self.button2.move(100,400)
+        self.button2.move(100,340)
         self.button2.resize(500,50)
         self.button2.clicked.connect(self.window4)
         
         self.button3 = QPushButton('Exit', self)    
         self.button3.setToolTip("Exit to the System")
-        self.button3.move(305,465)
+        self.button3.move(305,430)
         self.button3.resize(100,30)
         self.button3.setStyleSheet("background-color : skyblue; font: Bold")
         self.button3.clicked.connect(QApplication.instance().quit)
